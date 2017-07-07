@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using MarcelloDB.Index;
 using MarcelloDB.Serialization;
 using System.Linq;
+using MarcelloDB.netfx;
 
 namespace MarcelloDB.Test.Index
 {

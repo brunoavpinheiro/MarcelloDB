@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using MarcelloDB.BenchmarkTool.DataClasses;
 using System.IO;
+using MarcelloDB.netfx;
 
 namespace MarcelloDB.BenchmarkTool.Benchmarks
 {

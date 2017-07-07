@@ -10,6 +10,7 @@ using MarcelloDB.Storage;
 using MarcelloDB.Exceptions;
 using MarcelloDB.Transactions;
 using MarcelloDB.Index;
+using MarcelloDB.netfx;
 
 namespace MarcelloDB.Test.Integration
 {

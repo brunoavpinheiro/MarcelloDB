@@ -36,7 +36,7 @@ namespace MarcelloDB.Test.Regression.Issue49
         public void Setup ()
         {
             _platform = new TestPlatform();
-        	_session = new Session (_platform, "");
+        	_session = new Session (_platform, "", null);
             _collection = _session["moves.dat"].Collection<Product, Guid, ProductIndexDefinition>
                 ("products", p => p.Id);
         }

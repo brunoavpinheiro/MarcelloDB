@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MarcelloDB.netfx;
 
 //https://github.com/markmeeus/MarcelloDB/issues/31
 namespace MarcelloDB.Test.Regression.Issue31

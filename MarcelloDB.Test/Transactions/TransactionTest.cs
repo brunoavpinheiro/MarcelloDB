@@ -3,6 +3,7 @@ using NUnit.Framework;
 using MarcelloDB.Test.Classes;
 using MarcelloDB.Collections;
 using System.Linq;
+using MarcelloDB.netfx;
 
 namespace MarcelloDB.Test.Transactions
 {

@@ -2,12 +2,13 @@
 using MarcelloDB.Storage;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace MarcelloDB.netfx.Storage
 {
     public class FileStorageStreamProvider : IStorageStreamProvider
     {
-        string RootPath { get; set;}
+        string RootPath { get; set; }
 
         Dictionary<string, IStorageStream> Streams { get; set; }
 
@@ -18,7 +19,7 @@ namespace MarcelloDB.netfx.Storage
         }
 
         #region IStorageStreamProvider implementation
-        public IStorageStream GetStream (string streamName)
+        public IStorageStream GetStream(string streamName)
         {
             if (!this.Streams.ContainsKey(streamName))
             {
@@ -59,25 +60,29 @@ namespace MarcelloDB.netfx.Storage
 
         internal FileStorageStream(string filePath)
         {
-            _backingStream = new FileStream (
+            _backingStream = new FileStream(
                 filePath,
                 FileMode.OpenOrCreate,
                 FileAccess.ReadWrite);
         }
 
         #region IStorageStream implementation
-        public byte[] Read (long address, int length)
+        public byte[] Read(long address, int length)
         {
             byte[] result = new byte[length];
+
             _backingStream.Seek(address, SeekOrigin.Begin);
             _backingStream.Read(result, 0, length);
+
             return result;
         }
 
-        public void Write (long address, byte[] bytes)
+        public void Write(long address, byte[] bytes)
         {
             _backingStream.Seek(address, SeekOrigin.Begin);
             _backingStream.Write(bytes, 0, (int)bytes.Length);
+            _backingStream.FlushAsync();
+
             _backingStream.Flush(true);
         }
         #endregion

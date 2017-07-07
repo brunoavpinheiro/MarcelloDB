@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using MarcelloDB.Index;
 using System.Collections.Generic;
+using MarcelloDB.netfx;
 
 namespace MarcelloDB.Test.Index
 {

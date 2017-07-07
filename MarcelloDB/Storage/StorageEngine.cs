@@ -5,22 +5,22 @@ using MarcelloDB.Transactions;
 
 namespace MarcelloDB.Storage
 {
-    internal class StorageEngine : SessionBoundObject
+    public class StorageEngine : SessionBoundObject
     {
 
         string StreamName { get; set; }
 
-        public StorageEngine(Session session,string streamName) : base(session)
+        public StorageEngine(Session session, string streamName) : base(session)
         {
             this.StreamName = streamName;
         }
 
-        internal byte[] Read(long address, int length)
+        public byte[] Read(long address, int length)
         {
             return Reader().Read(address, length);
         }
 
-        internal void Write(long address, byte[] bytes)
+        public void Write(long address, byte[] bytes)
         {
             Writer().Write(address, bytes);
         }

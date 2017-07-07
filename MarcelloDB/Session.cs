@@ -14,9 +14,10 @@ namespace MarcelloDB
 {
     public class SessionBoundObject
     {
-        internal Session Session { get; set;}
+        internal Session Session { get; set; }
 
-        internal SessionBoundObject(Session session){
+        internal SessionBoundObject(Session session)
+        {
             this.Session = session;
         }
     }
@@ -39,8 +40,11 @@ namespace MarcelloDB
 
         bool Disposed { get; set; }
 
-        public Session (IPlatform platform, string rootPath)
+        public Type CollectionFileStorageEngineType { get; }
+
+        public Session(IPlatform platform, string rootPath, Type collectionFileStorageEngineType = null)
         {
+            this.CollectionFileStorageEngineType = collectionFileStorageEngineType;
             this.CollectionFiles = new Dictionary<string, CollectionFile>();
             this.StreamProvider = platform.CreateStorageStreamProvider(rootPath);
             this.Journal = new Journal(this);
@@ -57,7 +61,7 @@ namespace MarcelloDB
                 {
                     throw new ArgumentException(string.Format("{0} cannot be used as collection file.", fileName));
                 }
-                if(!this.CollectionFiles.ContainsKey(fileName))
+                if (!this.CollectionFiles.ContainsKey(fileName))
                 {
                     this.CollectionFiles[fileName] = new CollectionFile(this, fileName);
                 }
@@ -67,18 +71,25 @@ namespace MarcelloDB
 
         public void Transaction(Action action)
         {
-            lock (this.SyncLock) {
+            lock (this.SyncLock)
+            {
                 this.AssertValid();
-                EnsureTransaction ();
-                try {
-                    CurrentTransaction.Enlist ();
-                    action ();
-                    CurrentTransaction.Leave ();
-                } catch (Exception) {
-                    CurrentTransaction.Rollback ();
+                EnsureTransaction();
+                try
+                {
+                    CurrentTransaction.Enlist();
+                    action();
+                    CurrentTransaction.Leave();
+                }
+                catch (Exception)
+                {
+                    CurrentTransaction.Rollback();
                     throw;
-                } finally {
-                    if (!CurrentTransaction.Running) {
+                }
+                finally
+                {
+                    if (!CurrentTransaction.Running)
+                    {
                         CurrentTransaction = null;
                     }
                 }

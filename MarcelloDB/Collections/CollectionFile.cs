@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml.Linq;
 using MarcelloDB;
 using MarcelloDB.Serialization;
 using MarcelloDB.AllocationStrategies;
@@ -22,9 +23,22 @@ namespace MarcelloDB.Collections
         {
             this.Name = name;
             Collections = new Dictionary<string, Collection>();
+
+            StorageEngine storageEngine;
+
+            if (session.CollectionFileStorageEngineType != null)
+            {
+                storageEngine = (StorageEngine)Activator.CreateInstance(session.CollectionFileStorageEngineType, this.Session, this.Name);
+            }
+            else
+            {
+                storageEngine = new StorageEngine(this.Session, this.Name);
+            }
+
+
             this.RecordManager = new RecordManager(
                 this.Session,
-                new StorageEngine(this.Session, this.Name));
+                storageEngine);
         }
 
         public Collection<T, TID> Collection<T, TID>(string collectionName, Func<T, TID> idFunc)
@@ -33,9 +47,10 @@ namespace MarcelloDB.Collections
             {
                 collectionName = typeof(T).Name.ToLower();
             }
-            if(!Collections.ContainsKey(collectionName)){
-                Collections.Add (collectionName,
-                    new Collection<T, TID> (this.Session,
+            if (!Collections.ContainsKey(collectionName))
+            {
+                Collections.Add(collectionName,
+                    new Collection<T, TID>(this.Session,
                         this,
                         collectionName,
                         this.Session.SerializerResolver.SerializerFor<T>(),
@@ -54,15 +69,16 @@ namespace MarcelloDB.Collections
 
         public Collection<T, TID, TIndexDef> Collection<T, TID, TIndexDef>(
             string collectionName,
-            Func<T, TID> idFunc) where TIndexDef: IndexDefinition<T>, new()
+            Func<T, TID> idFunc) where TIndexDef : IndexDefinition<T>, new()
         {
             if (collectionName == null)
             {
                 collectionName = typeof(T).Name.ToLower();
             }
-            if(!Collections.ContainsKey(collectionName)){
-                Collections.Add (collectionName,
-                    new Collection<T, TID, TIndexDef> (this.Session,
+            if (!Collections.ContainsKey(collectionName))
+            {
+                Collections.Add(collectionName,
+                    new Collection<T, TID, TIndexDef>(this.Session,
                         this,
                         collectionName,
                         this.Session.SerializerResolver.SerializerFor<T>(),

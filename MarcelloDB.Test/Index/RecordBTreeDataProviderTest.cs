@@ -7,6 +7,7 @@ using System.Linq;
 using MarcelloDB.Index;
 using MarcelloDB.Index.BTree;
 using MarcelloDB.AllocationStrategies;
+using MarcelloDB.netfx;
 
 namespace MarcelloDB.Test.Index
 {

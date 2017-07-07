@@ -3,6 +3,7 @@ using NUnit.Framework;
 using MarcelloDB.Collections;
 using MarcelloDB.Index;
 using System.Linq;
+using MarcelloDB.netfx;
 
 namespace MarcelloDB.Test.Integration.CompoundIndexesTest
 {

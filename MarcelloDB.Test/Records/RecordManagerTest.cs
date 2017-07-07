@@ -6,6 +6,7 @@ using MarcelloDB.Storage;
 using MarcelloDB.AllocationStrategies;
 using MarcelloDB.Platform;
 using MarcelloDB.Collections;
+using MarcelloDB.netfx;
 
 namespace MarcelloDB.Test.Records
 {
